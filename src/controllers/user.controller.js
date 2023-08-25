@@ -3,13 +3,13 @@ const userService = require('../services/User.service');
 
 const secret = process.env.JWT_SECRET;
 
-const insert = async (req, res) => {
+const validateCredentials = async (req, res) => {
   try {
     const { email, password } = req.body;
     const verification = await userService.verifyCredentials(email, password);
     if (!verification || verification.password !== password) {
       return res.status(400).json({ message: 'Invalid fields' });
-    } 
+    }
     const jwtConfig = {
       expiresIn: '7d',
       algorithm: 'HS256',
@@ -22,5 +22,5 @@ const insert = async (req, res) => {
 };
 
 module.exports = {
-  insert,
+  validateCredentials,
 };
