@@ -19,7 +19,13 @@ const insert = async (displayName, email, password, image) => {
   return { status: 'SUCCESSFUL', newUser };
 };
 
+const findAll = async () => {
+  const allUsers = await User.findAll();
+  return allUsers;
+};
+
 module.exports = {
   verifyCredentials,
   insert,
+  findAll,
 };
