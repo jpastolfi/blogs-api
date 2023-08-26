@@ -3,7 +3,7 @@ const validateEmail = (req, res, next) => {
   const { email } = req.body;
   if (!email) return res.status(400).json({ message: 'Some required fields are missing' });
   if (!emailRegex.test(email)) {
-    return res.status(400).json({ message: 'Invalid fields' });
+    return res.status(400).json({ message: '"email" must be a valid email' });
   }
   next();
 };
