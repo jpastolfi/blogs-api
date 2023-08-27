@@ -37,8 +37,15 @@ const findAll = async (req, res) => {
   return res.status(200).json(allUsers);
 };
 
+const findById = async (req, res) => {
+  const id = Number(req.params.id);
+  const selectedUser = await userService.findById(id);
+  return res.status(200).json(selectedUser);
+};
+
 module.exports = {
   validateCredentials,
   insert,
   findAll,
+  findById,
 };

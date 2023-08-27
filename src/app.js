@@ -1,10 +1,11 @@
 const express = require('express');
 
 const { validateJWT } = require('./middlewares/auth');
-const { validateCredentials, insert, findAll } = require('./controllers/user.controller');
+const { validateCredentials, insert, findAll, findById } = require('./controllers/user.controller');
 const { validateEmail } = require('./middlewares/validateEmail');
 const { validatePassword } = require('./middlewares/validatePassword');
 const { validateName } = require('./middlewares/validateName');
+const { validateId } = require('./middlewares/validateId');
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.post('/user', validateName, validateEmail, validatePassword, insert);
 app.use(validateJWT);
 
 app.get('/user', findAll);
+app.get('/user/:id', validateId, findById);
 // É importante exportar a constante `app`,
 // para que possa ser utilizada pelo arquivo `src/server.js`
 module.exports = app;

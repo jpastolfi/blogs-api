@@ -24,8 +24,17 @@ const findAll = async () => {
   return allUsers;
 };
 
+const findById = async (id) => {
+  const selectedUser = await User.findOne({
+    where: { id },
+    attributes: { exclude: ['password'] },
+  });
+  return selectedUser;
+};
+
 module.exports = {
   verifyCredentials,
   insert,
   findAll,
+  findById,
 };
