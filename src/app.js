@@ -1,11 +1,13 @@
 const express = require('express');
 
+const userController = require('./controllers/user.controller');
+const categoryController = require('./controllers/Category.controller');
 const { validateJWT } = require('./middlewares/auth');
-const { validateCredentials, insert, findAll, findById } = require('./controllers/user.controller');
 const { validateEmail } = require('./middlewares/validateEmail');
 const { validatePassword } = require('./middlewares/validatePassword');
 const { validateName } = require('./middlewares/validateName');
 const { validateId } = require('./middlewares/validateId');
+const { validateNameCategory } = require('./middlewares/validateNameCategory');
 
 const app = express();
 
@@ -16,13 +18,17 @@ app.get('/', (_request, response) => {
 
 app.use(express.json());
 
-app.post('/login', validateEmail, validatePassword, validateCredentials);
-app.post('/user', validateName, validateEmail, validatePassword, insert);
+app.post('/login', validateEmail, validatePassword, userController.validateCredentials);
+app.post('/user', validateName, validateEmail, validatePassword, userController.insert);
 
 app.use(validateJWT);
 
-app.get('/user', findAll);
-app.get('/user/:id', validateId, findById);
+app.get('/user', userController.findAll);
+app.get('/user/:id', validateId, userController.findById);
+
+app.post('/categories', validateNameCategory, categoryController.insert);
+app.get('/categories', categoryController.findAll);
+
 // É importante exportar a constante `app`,
 // para que possa ser utilizada pelo arquivo `src/server.js`
 module.exports = app;
