@@ -4,7 +4,8 @@ const validateId = async (req, res, next) => {
   try {
     const id = Number(req.params.id);
     const selectedUser = await User.findById(id);
-    if (!selectedUser.dataValues.displayName) {
+    console.log(selectedUser);
+    if (selectedUser === null) {
       return res.status(404).json({ message: 'User does not exist' });
     }
     next();
