@@ -10,6 +10,26 @@ const findAll = async () => {
   return allPosts;
 };
 
+const findById = async (id) => {
+  const selectedPost = await BlogPost.findOne({
+    where: { id },
+    include: [
+      { model: User, as: 'user', attributes: { exclude: ['password'] } },
+      { model: Category, as: 'categories', through: { attributes: [] } },      
+    ],
+  });
+  if (!selectedPost) {
+    return {
+      status: 'UNSUCCESSFUL',
+      message: 'Post does not exist',
+    };
+  }
+  return {
+    status: 'SUCCESSFUL',
+    data: selectedPost,
+  };
+};
+
 const insert = async (userId, title, content, categoryIds) => {
   const allCategories = await Category.findAll();
   const allCategoriesIds = allCategories.map((category) => category.dataValues.id);
@@ -33,4 +53,5 @@ const insert = async (userId, title, content, categoryIds) => {
 module.exports = {
   insert,
   findAll,
+  findById,
 };

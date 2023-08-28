@@ -5,6 +5,15 @@ const findAll = async (req, res) => {
   return res.status(200).json(allPosts);
 };
 
+const findById = async (req, res) => {
+  const id = Number(req.params.id);
+  const selectedPost = await postService.findById(id);
+  if (selectedPost.status !== 'SUCCESSFUL') {
+    return res.status(404).json({ message: selectedPost.message });
+  }
+  return res.status(200).json(selectedPost.data);
+};
+
 const insert = async (req, res) => {
   const { title, content, categoryIds } = req.body;
   const userId = req.user.id;
@@ -25,4 +34,5 @@ const insert = async (req, res) => {
 module.exports = {
   insert,
   findAll,
+  findById,
 };

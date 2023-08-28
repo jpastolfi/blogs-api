@@ -33,6 +33,7 @@ app.get('/categories', categoryController.findAll);
 
 app.post('/post', postCreationValidation, postController.insert);
 app.get('/post', postController.findAll);
+app.get('/post/:id', postController.findById);
 
 // É importante exportar a constante `app`,
 // para que possa ser utilizada pelo arquivo `src/server.js`
