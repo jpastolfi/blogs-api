@@ -20,7 +20,9 @@ const insert = async (displayName, email, password, image) => {
 };
 
 const findAll = async () => {
-  const allUsers = await User.findAll();
+  const allUsers = await User.findAll({
+    attributes: { exclude: ['password'] },
+  });
   return allUsers;
 };
 

@@ -2,6 +2,7 @@ const express = require('express');
 
 const userController = require('./controllers/user.controller');
 const categoryController = require('./controllers/Category.controller');
+const serviceCategory = require('./controllers/Post.controller');
 const { validateJWT } = require('./middlewares/auth');
 const { validateEmail } = require('./middlewares/validateEmail');
 const { validatePassword } = require('./middlewares/validatePassword');
@@ -18,7 +19,7 @@ app.get('/', (_request, response) => {
 
 app.use(express.json());
 
-app.post('/login', validateEmail, validatePassword, userController.validateCredentials);
+app.post('/login', validateEmail, validatePassword, userController.login);
 app.post('/user', validateName, validateEmail, validatePassword, userController.insert);
 
 app.use(validateJWT);
@@ -28,6 +29,8 @@ app.get('/user/:id', validateId, userController.findById);
 
 app.post('/categories', validateNameCategory, categoryController.insert);
 app.get('/categories', categoryController.findAll);
+
+app.post('/post', serviceCategory.insert);
 
 // É importante exportar a constante `app`,
 // para que possa ser utilizada pelo arquivo `src/server.js`
